@@ -58,12 +58,6 @@ def read_teams(db: Session = Depends(get_db)):
 
 
 @app.get("/teams/average_age", response_model=List[schemas.Team])
-def read_teams_by_average_age(db: Session = Depends(get_db)):
-    teams = controller.read_teams_sorted(db)
-    return teams
-
-
-@app.get("/teams/average_age_desc", response_model=List[schemas.Team])
-def read_teams_by_average_age(db: Session = Depends(get_db)):
-    teams = controller.read_teams_sorted_desc(db)
+def read_teams_by_average_age(order: str = "asc", db: Session = Depends(get_db)):
+    teams = controller.read_teams_sorted(order, db)
     return teams

@@ -40,21 +40,17 @@ def read_teams(db: Session):
     return db.query(models.Team).all()
 
 
-def read_teams_sorted(db: Session):
-    return (
-        db.query(models.Team)
-        .join(models.Team.members)
-        .group_by(models.Team.id)
-        .order_by(func.avg(models.Member.age))
-        .all()
-    )
-
-
-def read_teams_sorted_desc(db: Session):
-    return (
+def read_teams_sorted(order, db: Session):
+    results = (
         db.query(models.Team)
         .join(models.Team.members)
         .group_by(models.Team.id)
         .order_by(func.avg(models.Member.age).desc())
         .all()
     )
+
+    if order == "desc":
+        return results
+
+    results.reverse()
+    return results
