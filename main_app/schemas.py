@@ -2,16 +2,20 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+
 class MemberBase(BaseModel):
     name: str
     age: int
     team_id: int
 
+
 class MemberCreate(MemberBase):
-    pass    
+    pass
+
 
 class MemberUpdate(MemberBase):
     pass
+
 
 class Member(MemberBase):
     id: int
@@ -20,11 +24,14 @@ class Member(MemberBase):
     class Config:
         orm_mode = True
 
+
 class TeamBase(BaseModel):
     name: str
 
+
 class TeamCreate(TeamBase):
-    pass    
+    pass
+
 
 class Team(TeamBase):
     id: int
