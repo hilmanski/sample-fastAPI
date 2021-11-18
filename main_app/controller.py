@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
-
+import pprint
 from . import models, schemas
 
 
@@ -42,7 +42,7 @@ def read_teams(db: Session):
 
 def read_teams_sorted(order, db: Session):
     results = (
-        db.query(models.Team)
+        db.query(models.Team, func.avg(models.Member.age).label("avg_age"))
         .join(models.Team.members)
         .group_by(models.Team.id)
         .order_by(func.avg(models.Member.age).desc())

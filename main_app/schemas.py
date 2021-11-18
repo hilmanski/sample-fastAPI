@@ -1,6 +1,8 @@
-from typing import List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel
+
+from main_app.database import Base
 
 
 class MemberBase(BaseModel):
@@ -36,6 +38,13 @@ class TeamCreate(TeamBase):
 class Team(TeamBase):
     id: int
     members: List[Member]
+
+    class Config:
+        orm_mode = True
+
+
+class TeamStats(List[Team]):
+    avg_age: float
 
     class Config:
         orm_mode = True
