@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Tuple
+from typing import List
 
 from pydantic import BaseModel
 
@@ -43,8 +43,9 @@ class Team(TeamBase):
         orm_mode = True
 
 
-class TeamStats(List[Team]):
-    avg_age: float
+class TeamStats(TeamBase):
+    id: int
+    average_age: float
 
     class Config:
         orm_mode = True
