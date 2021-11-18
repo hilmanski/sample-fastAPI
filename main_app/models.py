@@ -21,4 +21,4 @@ class Team(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
 
-    members = relationship("Member", back_populates="team")
+    members = relationship("Member", back_populates="team", lazy="subquery")
