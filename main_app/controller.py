@@ -48,7 +48,7 @@ def read_team_members_average_age(db: Session, order):
         )
         .join(models.Team.members)
         .group_by(models.Team.id)
-        .order_by(func.avg(models.Member.age).desc())
+        .order_by(func.avg(models.Member.age))
         .all()
     )
 
