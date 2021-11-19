@@ -11,7 +11,7 @@ class MemberDAL:
     async def create_member(self, member: schemas.MemberCreate, team_id: int):
         new_member = models.Member(name=member.name, age=member.age, team_id=team_id)
         self.db_session.add(new_member)
-        await self.db_session.flush()
+        await self.db_session.commit()
 
     async def read_member(self, player_id: int):
         query = await self.db_session.execute(
