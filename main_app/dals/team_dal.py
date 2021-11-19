@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, lazyload, subqueryload
+from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import mode
 from main_app import models
 from sqlalchemy.future import select
@@ -16,17 +16,16 @@ class TeamDAL:
 
     async def read_team_members_average_age(self, order):
 
-        rawQuery = text(
-            """
-            SELECT team.id as id, team.name as name, avg(member.age) as average_age
-            FROM team
-            LEFT JOIN member ON team.id = member.team_id
-            GROUP BY team.id
-            ORDER BY average_age
-        """
+        query = await self.db_session.execute(
+            select(
+                models.Team.id.label("id"),
+                models.Team.name.label("name"),
+                func.avg(models.Member.age).label("average_age"),
+            )
+            .join(models.Team.members)
+            .group_by(models.Team.id)
+            .order_by(func.avg(models.Member.age))
         )
-
-        query = await self.db_session.execute(rawQuery)
         results = query.all()
 
         if order == "desc":
